@@ -1,6 +1,7 @@
 package ar.com.wolox.android.mvvmexample.di.component
 
 import android.app.Application
+import ar.com.wolox.android.mvvmexample.di.module.ApiModule
 import ar.com.wolox.android.mvvmexample.di.module.AppModule
 import ar.com.wolox.android.mvvmexample.di.module.ContextModule
 import ar.com.wolox.android.mvvmexample.di.module.ViewModelModule
@@ -13,7 +14,7 @@ import dagger.android.support.AndroidSupportInjectionModule
 
 @ApplicationScope
 @Component(modules = [AndroidSupportInjectionModule::class, AppModule::class,
-    ContextModule::class, ViewModelModule::class])
+    ContextModule::class, ViewModelModule::class, ApiModule::class])
 interface AppComponent: AndroidInjector<DaggerApplication> {
 
     @Component.Builder

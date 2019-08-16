@@ -12,4 +12,5 @@
     <string name="login_google_not_completed_message">You must be signed up before with the same email</string>
     <string name="login_google_not_completed_error_message">Your Log In process by Google was not finished</string>
     <string name="network_error_message">Please verify your network connection</string>
+    <string name="network_error_unknows">Something is wrong</string>
 </resources>

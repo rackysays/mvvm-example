@@ -42,13 +42,13 @@ class LoginFragment: BaseFragment() {
             binding.usernameStored = it
         }
         observeLiveData(viewModel.observeValidationLogin()){
-            when(it.first){
+            when(it.destination){
                 USERNAME -> {
-                    binding.vLoginUsername.error = it.second
+                    binding.vLoginUsername.error = it.message
                     binding.vLoginPassword.error = null
                 }
                 PASSWORD -> {
-                    binding.vLoginPassword.error = it.second
+                    binding.vLoginPassword.error = it.message
                     binding.vLoginUsername.error = null
                 }
                 LOGIN_SUCCESS -> {
@@ -56,7 +56,9 @@ class LoginFragment: BaseFragment() {
                     binding.vLoginPassword.error = null
                 }
                 LOGIN_FAIL -> {
-                    Toast.makeText(requireContext(),it.second,Toast.LENGTH_LONG).show()
+                    binding.vLoginUsername.error = null
+                    binding.vLoginPassword.error = null
+                    Toast.makeText(requireActivity(),it.message,Toast.LENGTH_LONG).show()
                 }
             }
         }
