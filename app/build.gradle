@@ -37,6 +37,9 @@ buildscript {
     ext.dagger_version = '2.22.1'
     ext.retrofit_version = '2.3.0'
     ext.timber_version = '4.7.1'
+    ext.rxjava_version = '2.2.6'
+    ext.rxandroid_version = '2.1.0'
+    ext.arch_compoment_version = '2.0.0'
 }
 
 dependencies {
@@ -48,7 +51,9 @@ dependencies {
     implementation "androidx.core:core-ktx:$androidx_core_version"
     implementation "androidx.constraintlayout:constraintlayout:$androidx_constraint_layout_version"
     implementation "androidx.recyclerview:recyclerview:$androidx_recycler_version"
+    implementation "androidx.lifecycle:lifecycle-extensions:$arch_compoment_version"
     implementation "com.google.android.material:material:$androidx_material_version"
+
 
     //Third party
     implementation "com.google.dagger:dagger:$dagger_version"
@@ -57,6 +62,8 @@ dependencies {
     kapt "com.google.dagger:dagger-android-processor:$dagger_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
     implementation "com.jakewharton.timber:timber:$timber_version"
+    implementation "io.reactivex.rxjava2:rxjava:$rxjava_version"
+    implementation "io.reactivex.rxjava2:rxandroid:$rxandroid_version"
 
 
     //Testing dependencies

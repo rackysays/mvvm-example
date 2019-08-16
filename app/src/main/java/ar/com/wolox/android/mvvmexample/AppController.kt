@@ -1,5 +1,6 @@
 package ar.com.wolox.android.mvvmexample
 
+import ar.com.wolox.android.mvvmexample.BaseConfiguration.Companion.SHARED_PREFERENCES_NAME
 import ar.com.wolox.android.mvvmexample.di.component.DaggerAppComponent
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
@@ -9,6 +10,7 @@ class AppController : DaggerApplication(){
 
     private val appComponent =  DaggerAppComponent.builder()
         .application(this)
+        .sharedPreferencesName(SHARED_PREFERENCES_NAME)
         .build()
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> = appComponent

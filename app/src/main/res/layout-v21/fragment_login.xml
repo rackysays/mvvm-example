@@ -62,6 +62,7 @@
                     android:ems="@integer/ems_default"
                     android:hint="@string/login_username"
                     android:inputType="textEmailAddress"
+                    android:text="@={usernameStored}"
                     tools:ignore="Autofill"
                     style="@style/styleBigSpacing"/>
 

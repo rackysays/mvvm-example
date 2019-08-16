@@ -12,7 +12,13 @@ abstract class BaseFragment: DaggerFragment(){
         setListener()
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        observeLiveData()
+    }
+
     open fun setListener(){}
+    open fun observeLiveData(){}
 
     abstract fun init()
     abstract fun layout(): Int
