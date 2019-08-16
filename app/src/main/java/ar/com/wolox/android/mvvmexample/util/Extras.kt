@@ -15,6 +15,8 @@ object Extras {
         const val PASSWORD = "password"
         const val USERID = "userid"
         const val LOGGED_TYPE = "loggedType"
+        const val LOGIN_SUCCESS = "loginSuccess"
+        const val LOGIN_FAIL = "loginFail"
     }
 
 }

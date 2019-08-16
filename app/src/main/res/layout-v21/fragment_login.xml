@@ -4,7 +4,10 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools">
 
-    <data class="LoginFragmentBinding"/>
+    <data class="LoginFragmentBinding">
+        <variable name="usernameStored" type="String"/>
+        <variable name="viewModel" type="ar.com.wolox.android.mvvmexample.ui.login.LoginViewModel"/>
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -63,6 +66,7 @@
                     android:hint="@string/login_username"
                     android:inputType="textEmailAddress"
                     android:text="@={usernameStored}"
+                    app:emailValidation="@{true}"
                     tools:ignore="Autofill"
                     style="@style/styleBigSpacing"/>
 
@@ -77,6 +81,7 @@
             <Button
                     android:id="@+id/vLoginButton"
                     android:text="@string/login_log_in"
+                    android:onClick="@{()->viewModel.onLoginClicked(vLoginUsername.getText().toString(),vLoginPassword.getText().toString())}"
                     style="@style/styleBigSpacing"/>
 
             <Button
