@@ -1,85 +1,99 @@
 package ar.com.wolox.android.mvvmexample.ui.login
 
 import android.content.Context
-import androidx.annotation.NonNull
 import androidx.core.util.PatternsCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import ar.com.wolox.android.mvvmexample.R
-import ar.com.wolox.android.mvvmexample.model.User
-import ar.com.wolox.android.mvvmexample.model.ValidationMessage
 import ar.com.wolox.android.mvvmexample.network.LoginService
+import ar.com.wolox.android.mvvmexample.network.utils.ApiResponse
 import ar.com.wolox.android.mvvmexample.ui.base.BaseViewModel
-import ar.com.wolox.android.mvvmexample.util.Extras.UserLogin.LOGIN_FAIL
-import ar.com.wolox.android.mvvmexample.util.Extras.UserLogin.LOGIN_SUCCESS
-import ar.com.wolox.android.mvvmexample.util.Extras.UserLogin.PASSWORD
-import ar.com.wolox.android.mvvmexample.util.Extras.UserLogin.USERNAME
+import ar.com.wolox.android.mvvmexample.util.AbsentLiveData
+import ar.com.wolox.android.mvvmexample.util.NetworkSimpleBoundResource
 import ar.com.wolox.android.mvvmexample.util.UserSession
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import androidx.lifecycle.Transformations.switchMap
+import ar.com.wolox.android.mvvmexample.model.*
 import javax.inject.Inject
 
 class LoginViewModel @Inject constructor(private val userSession: UserSession,
                                          private val context: Context,
                                          private val loginService: LoginService): BaseViewModel(){
 
-    private var userStored : MutableLiveData<String> = MutableLiveData()
-    private var validation : MutableLiveData<ValidationMessage> = MutableLiveData()
+    // User stored from SharedPreferences
+    private val userStored : MutableLiveData<String> = MutableLiveData()
+    // User credentials to log in
+    private val userCredentials : MutableLiveData<UserCredentials> = MutableLiveData()
+    // Live Data for validation of Login Form
+    private val loginValidation : MutableLiveData<ValidationMessage> = MutableLiveData()
+    // Live Data for validation of Network Login
+    private val loginLiveData :  LiveData<Resource<User>>
 
+    // All LiveData<?> must be initialized here
     init {
         userStored.postValue(userSession.username)
-    }
-
-    fun observeUserStored() : LiveData<String> = userStored
-
-    fun observeValidationLogin() : LiveData<ValidationMessage> = validation
-
-    fun onLoginClicked(username: String, password: String){
-        if (username.isEmpty() && password.isEmpty()){
-            validation.postValue(ValidationMessage(USERNAME,context.resources.getString(EMPTY_FIELD)))
-        }else if(username.isEmpty()) {
-            validation.postValue(ValidationMessage(USERNAME, context.resources.getString(EMPTY_FIELD)))
-        }else if (password.isEmpty()){
-            validation.postValue(ValidationMessage(PASSWORD, context.resources.getString(EMPTY_FIELD)))
-        } else if(evaluateUsernameFormat(username)){
-            userStored.postValue(username)
-            loginUser(username, password)
-        } else {
-            validation.postValue(ValidationMessage(USERNAME, context.resources.getString(ERROR_USERNAME)))
+        loginLiveData = switchMap(userCredentials){
+            userCredentials.value?.let {
+                liveDataUserLogin(it.username, it.password)
+            }?: AbsentLiveData.create()
         }
     }
 
+    // Observe of user from SharedPreference
+    fun observeUserStored() : LiveData<String> = userStored
+
+    // Observe form validation
+    fun observeValidationLogin() : LiveData<ValidationMessage> = loginValidation
+
+    // Observe network call for Log In
+    fun observeLiveDataUserValidation() :  LiveData<Resource<User>> = loginLiveData
+
+    // Called when logIn button is clicked
+    fun onLoginClicked(username: String, password: String){
+        if (username.isEmpty() && password.isEmpty()){
+            loginValidation.postValue(ValidationMessage(FormField.USERNAME,ErrorMessage.EMPTY_FIELD))
+        }else if(username.isEmpty()) {
+            loginValidation.postValue(ValidationMessage(FormField.USERNAME,ErrorMessage.EMPTY_FIELD))
+        }else if (password.isEmpty()){
+            loginValidation.postValue(ValidationMessage(FormField.PASSWORD, ErrorMessage.EMPTY_FIELD))
+        } else if(evaluateUsernameFormat(username)){
+            userCredentials.postValue(UserCredentials(username,password))
+        } else {
+            loginValidation.postValue(ValidationMessage(FormField.USERNAME, ErrorMessage.WRONG_FORMAT))
+        }
+    }
+
+    // Save username from the field in SharedPreferences before is destroyed
+    fun saveFormBeforeDestroy(username: String){
+        userSession.username = username
+    }
+
+    // Validation of email address format
     private fun evaluateUsernameFormat(email: String) : Boolean {
         return PatternsCompat.EMAIL_ADDRESS.matcher(email).matches()
     }
 
-    private fun loginUser(@NonNull username: String, @NonNull password: String){
-        loginService.getUserByCredentials(username,password).enqueue(object: Callback<List<User>>{
-            override fun onResponse(call: Call<List<User>>, response: Response<List<User>>) {
-                if (response.body()?.size!! > 0){
-                    userSession.apply {
-                        this.username = username
-                        this.password = password
-                    }
-                    validation.postValue(ValidationMessage(LOGIN_SUCCESS, EMPTY))
-                } else {
-                    validation.postValue(ValidationMessage(LOGIN_FAIL, context.resources.getString(ERROR_LOGIN)))
+    // This function is called when a new username and password is set
+    private fun liveDataUserLogin(username: String, password: String) : LiveData<Resource<User>> {
+        return object : NetworkSimpleBoundResource<User, List<User>>(){
+
+            override fun transformResult(item: List<User>): LiveData<User> {
+                val result = MutableLiveData<User>()
+                if (item.isNotEmpty()) {
+                    result.value = item[0]
                 }
+                return result
             }
 
-            override fun onFailure(call: Call<List<User>>, t: Throwable) {
-                validation.postValue(ValidationMessage(LOGIN_FAIL, context.resources.getString(ERROR_UNKNOWN)))
+            override fun createCall(): LiveData<ApiResponse<List<User>>> {
+                return loginService.getUserByLiveCredentials(username,password)
             }
-        })
+
+        }.asLiveData()
+
     }
 
-    companion object {
-        const val EMPTY = ""
-        const val EMPTY_FIELD = R.string.login_required_field
-        const val ERROR_USERNAME = R.string.login_wrong_username_format
-        const val ERROR_LOGIN = R.string.login_error_username_password
-        const val ERROR_UNKNOWN = R.string.network_error_unknows
-    }
-
+    /**
+     * Private model just for credentials
+     */
+    private data class UserCredentials(val username: String, val password: String)
 }
+

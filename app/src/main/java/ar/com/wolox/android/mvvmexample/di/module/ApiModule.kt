@@ -4,6 +4,7 @@ import androidx.annotation.NonNull
 import ar.com.wolox.android.mvvmexample.BaseConfiguration
 import ar.com.wolox.android.mvvmexample.di.scope.ApplicationScope
 import ar.com.wolox.android.mvvmexample.network.LoginService
+import ar.com.wolox.android.mvvmexample.network.utils.LiveDataCallAdapterFactory
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -33,6 +34,7 @@ class ApiModule{
             .client(okHttpClient)
             .baseUrl(BaseConfiguration.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(LiveDataCallAdapterFactory())
             .build()
 
     @Provides

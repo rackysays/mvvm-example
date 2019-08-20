@@ -8,7 +8,6 @@ abstract class BaseFragment: DaggerFragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        init()
         setListener()
     }
 
@@ -17,9 +16,21 @@ abstract class BaseFragment: DaggerFragment(){
         observeLiveData()
     }
 
+    /**
+     * Sets the listeners for the views of the fragment.
+     * Override if needed.
+     */
     open fun setListener(){}
+
+    /**
+     * For setting Live data observations, must be initialize viewModel first, in order to be reactive
+     * Override if needed.
+     */
     open fun observeLiveData(){}
 
-    abstract fun init()
+    /**
+     * Layout resource to be added in Fragment
+     */
     abstract fun layout(): Int
+
 }

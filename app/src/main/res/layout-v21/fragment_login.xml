@@ -5,8 +5,11 @@
         xmlns:tools="http://schemas.android.com/tools">
 
     <data class="LoginFragmentBinding">
+        <import type="android.view.View"/>
+        <import type="ar.com.wolox.android.mvvmexample.model.FormField"/>
         <variable name="usernameStored" type="String"/>
-        <variable name="viewModel" type="ar.com.wolox.android.mvvmexample.ui.login.LoginViewModel"/>
+        <variable name="isLoading" type="Boolean"/>
+        <variable name="validationField" type="ar.com.wolox.android.mvvmexample.model.ValidationMessage"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -66,6 +69,7 @@
                     android:hint="@string/login_username"
                     android:inputType="textEmailAddress"
                     android:text="@={usernameStored}"
+                    app:errorText='@{validationField.destination == FormField.USERNAME ? validationField.message : null}'
                     app:emailValidation="@{true}"
                     tools:ignore="Autofill"
                     style="@style/styleBigSpacing"/>
@@ -75,13 +79,13 @@
                     android:ems="@integer/ems_default"
                     android:hint="@string/login_password"
                     android:inputType="textPassword"
+                    app:errorText='@{validationField.destination == FormField.PASSWORD ? validationField.message : null}'
                     tools:ignore="Autofill"
                     style="@style/styleBigSpacing"/>
 
             <Button
                     android:id="@+id/vLoginButton"
                     android:text="@string/login_log_in"
-                    android:onClick="@{()->viewModel.onLoginClicked(vLoginUsername.getText().toString(),vLoginPassword.getText().toString())}"
                     style="@style/styleBigSpacing"/>
 
             <Button
@@ -113,7 +117,7 @@
                 android:layout_marginTop="@dimen/spacing_medium_more"
                 android:layout_marginEnd="@dimen/spacing_medium_more"
                 android:layout_marginBottom="@dimen/spacing_medium_more"
-                android:visibility="gone"
+                android:visibility="@{isLoading? View.VISIBLE : View.GONE}"
                 app:layout_constraintBottom_toTopOf="@+id/vLoginTermsConditions"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
