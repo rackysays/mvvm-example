@@ -74,6 +74,15 @@ class LoginFragment: BaseFragment() {
         }
     }
 
+
+    override fun changeConnectionStatus(connectionOk: Boolean) {
+        super.changeConnectionStatus(connectionOk)
+        if (!connectionOk) {
+            Toast.makeText(requireActivity(), ERROR_NETWORK, Toast.LENGTH_LONG).show()
+        }
+        binding.vLoginButton.isEnabled = connectionOk
+    }
+
     override fun onStop() {
         super.onStop()
         viewModel.saveFormBeforeDestroy(binding.vLoginUsername.text.toString())
@@ -82,5 +91,6 @@ class LoginFragment: BaseFragment() {
     companion object {
         const val ERROR_LOGIN = R.string.login_error_username_password
         const val ERROR_UNKNOWN = R.string.network_error_unknows
+        const val ERROR_NETWORK = R.string.network_error_message
     }
 }

@@ -2,6 +2,8 @@ package ar.com.wolox.android.mvvmexample.ui.base
 
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.Observer
+import ar.com.wolox.android.mvvmexample.util.ConnectionLiveData
 import dagger.android.support.DaggerFragment
 
 abstract class BaseFragment: DaggerFragment(){
@@ -14,6 +16,10 @@ abstract class BaseFragment: DaggerFragment(){
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         observeLiveData()
+
+        ConnectionLiveData(requireActivity()).observe(this, Observer {
+            changeConnectionStatus(it)
+        })
     }
 
     /**
@@ -33,4 +39,8 @@ abstract class BaseFragment: DaggerFragment(){
      */
     abstract fun layout(): Int
 
+    /**
+     * Return the actual network connection status
+     */
+    open fun changeConnectionStatus(connectionOk : Boolean){}
 }

@@ -15,7 +15,6 @@ import ar.com.wolox.android.mvvmexample.model.*
 import javax.inject.Inject
 
 class LoginViewModel @Inject constructor(private val userSession: UserSession,
-                                         private val context: Context,
                                          private val loginService: LoginService): BaseViewModel(){
 
     // User stored from SharedPreferences
