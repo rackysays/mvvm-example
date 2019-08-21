@@ -1,6 +1,5 @@
 package ar.com.wolox.android.mvvmexample.ui.login
 
-import android.content.Context
 import androidx.core.util.PatternsCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
