@@ -73,25 +73,20 @@ class LoginViewModel @Inject constructor(private val userSession: UserSession,
     private fun liveDataUserLogin(username: String, password: String) : LiveData<Resource<User>> {
         return object : NetworkSimpleBoundResource<User, List<User>>(){
 
-            override fun transformResult(item: List<User>): LiveData<User> {
-                val result = MutableLiveData<User>()
-                if (item.isNotEmpty()) {
-                    result.value = item[0]
+            override fun transformResult(item: List<User>): LiveData<User> = MutableLiveData<User>().
+                apply {
+                    if (item.isNotEmpty()) {
+                        item[0].let {
+                            userSession.username = it.email
+                            userSession.password = it.password
+                            value = it
+                        }
+                    }
                 }
-                return result
-            }
 
-            override fun createCall(): LiveData<ApiResponse<List<User>>> {
-                return loginService.getUserByLiveCredentials(username,password)
-            }
+            override fun createCall(): LiveData<ApiResponse<List<User>>> =
+                loginService.getUserByLiveCredentials(username,password)
 
         }.asLiveData()
-
     }
-
-    /**
-     * Private model just for credentials
-     */
-    private data class UserCredentials(val username: String, val password: String)
 }
-
