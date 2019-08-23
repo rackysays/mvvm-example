@@ -1,5 +1,6 @@
 package ar.com.wolox.android.mvvmexample.ui.login
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,7 @@ import ar.com.wolox.android.mvvmexample.R
 import ar.com.wolox.android.mvvmexample.databinding.LoginFragmentBinding
 import ar.com.wolox.android.mvvmexample.model.Status
 import ar.com.wolox.android.mvvmexample.ui.base.BaseFragment
+import ar.com.wolox.android.mvvmexample.ui.home.HomePageActivity
 import ar.com.wolox.android.mvvmexample.util.NetworkSimpleBoundResource.NetworkSimpleBoundErrors.NULL_DATA
 import ar.com.wolox.android.mvvmexample.util.NetworkSimpleBoundResource.NetworkSimpleBoundErrors.UNKNOWN
 import ar.com.wolox.android.mvvmexample.util.observeLiveData
@@ -48,7 +50,7 @@ class LoginFragment: BaseFragment() {
                 Status.LOADING -> binding.isLoading = true
                 Status.SUCCESS -> {
                     binding.isLoading = false
-                    Toast.makeText(requireActivity(),"Connected " + it.data?.username,Toast.LENGTH_LONG).show()
+                    goToHomeScreenPage()
                 }
                 Status.ERROR -> {
                     binding.isLoading = false
@@ -86,6 +88,13 @@ class LoginFragment: BaseFragment() {
     override fun onStop() {
         super.onStop()
         viewModel.saveFormBeforeDestroy(binding.vLoginUsername.text.toString())
+    }
+
+    private fun goToHomeScreenPage(){
+        startActivity(
+            Intent(requireActivity(), HomePageActivity::class.java)
+                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+        requireActivity().finish()
     }
 
     companion object {

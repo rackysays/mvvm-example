@@ -35,12 +35,13 @@ class LoginViewModelTest {
     @Before
     fun setUp(){
         MockitoAnnotations.initMocks(this)
-        `when`(userSession.username).thenReturn(MOCKED_USERNAME)
         viewModel = LoginViewModel(userSession, loginService)
     }
 
     @Test
     fun userAlreadyStoredIsReturned(){
+        `when`(userSession.username).thenReturn(MOCKED_USERNAME)
+        viewModel = LoginViewModel(userSession, loginService)
         assertEquals(MOCKED_USERNAME, viewModel.observeUserStored().value)
     }
 

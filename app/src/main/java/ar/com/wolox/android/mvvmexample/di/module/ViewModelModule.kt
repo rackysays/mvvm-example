@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import ar.com.wolox.android.mvvmexample.factory.ViewModelFactory
 import ar.com.wolox.android.mvvmexample.ui.login.LoginViewModel
+import ar.com.wolox.android.mvvmexample.ui.root.RootViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -18,5 +19,10 @@ internal abstract class ViewModelModule{
     @IntoMap
     @ViewModelKey(LoginViewModel::class)
     protected abstract fun bindLoginViewModel(loginViewModel: LoginViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(RootViewModel::class)
+    protected abstract fun bindRootViewModel(rootViewModel: RootViewModel): ViewModel
 
 }
