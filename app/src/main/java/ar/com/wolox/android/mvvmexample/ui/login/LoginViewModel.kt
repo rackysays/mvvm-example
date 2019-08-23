@@ -77,10 +77,8 @@ class LoginViewModel @Inject constructor(private val userSession: UserSession,
                 apply {
                     if (item.isNotEmpty()) {
                         item[0].let {
-                            userSession.apply {
-                                this.username = it.email
-                                this.password = it.password
-                            }
+                            userSession.username = it.email
+                            userSession.password = it.password
                             value = it
                         }
                     }
@@ -90,7 +88,5 @@ class LoginViewModel @Inject constructor(private val userSession: UserSession,
                 loginService.getUserByLiveCredentials(username,password)
 
         }.asLiveData()
-
     }
 }
-
