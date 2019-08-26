@@ -10,6 +10,7 @@ abstract class BaseFragment: DaggerFragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        init()
         setListener()
     }
 
@@ -35,12 +36,14 @@ abstract class BaseFragment: DaggerFragment(){
     open fun observeLiveData(){}
 
     /**
-     * Layout resource to be added in Fragment
-     */
-    abstract fun layout(): Int
-
-    /**
      * Return the actual network connection status
      */
     open fun changeConnectionStatus(connectionOk : Boolean){}
+
+    open fun init(){}
+
+    /**
+     * Layout resource to be added in Fragment
+     */
+    abstract fun layout(): Int
 }

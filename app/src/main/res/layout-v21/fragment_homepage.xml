@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data class="FragmentHomePageBinding">
+        <variable name="adapter" type="androidx.fragment.app.FragmentPagerAdapter" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <ImageView
+                android:id="@+id/vLogoWolox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_large"
+                app:layout_constraintBottom_toBottomOf="@+id/vTitleWolox"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/vTitleWolox"
+                app:srcCompat="@drawable/wolox_logo"
+                tools:ignore="ContentDescription" />
+
+        <TextView
+                android:id="@+id/vTitleWolox"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/spacing_big_element"
+                android:layout_marginStart="@dimen/static_spacing_largest"
+                android:fontFamily="@font/roboto_regular"
+                android:gravity="center_vertical"
+                android:text="@string/home_title_wolox"
+                android:textColor="@color/colorTopTitle"
+                android:textSize="@dimen/font_big"
+                app:fontFamily="@font/roboto_regular"
+                app:layout_constraintStart_toEndOf="@+id/vLogoWolox"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.tabs.TabLayout
+                android:id="@+id/vTabSelection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:pager="@{vHomeViewPager}"
+                app:setUpHomePageIcons="@{true}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:tabSelectedTextColor="@color/colorAccent"
+                app:layout_constraintTop_toBottomOf="@+id/vTitleWolox">
+        </com.google.android.material.tabs.TabLayout>
+
+        <androidx.viewpager.widget.ViewPager
+                android:id="@+id/vHomeViewPager"
+                android:layout_width="@dimen/spacing_none"
+                android:layout_height="@dimen/spacing_none"
+                app:handler="@{adapter}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/vTabSelection" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

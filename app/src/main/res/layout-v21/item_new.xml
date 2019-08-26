@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data class="ItemNewBinding">
+        <variable name="newB" type="ar.com.wolox.android.mvvmexample.model.New" />
+        <variable name="userId" type="int" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/spacing_biggest_element">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/vNewImage"
+                android:layout_width="@dimen/image_default_size"
+                android:layout_height="@dimen/image_default_size"
+                android:layout_marginStart="@dimen/static_spacing_medium_extra"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:placeholderImage="@color/colorTopTitle"
+                app:roundedCornerRadius="@dimen/static_spacing_tiny"
+                app:setFrescoImage="@{newB.picture}"
+                tools:ignore="ContentDescription"
+                tools:srcCompat="@tools:sample/avatars"/>
+
+        <TextView
+                android:id="@+id/vNewTitle"
+                android:layout_width="@dimen/spacing_none"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/static_spacing_largest"
+                android:layout_marginEnd="@dimen/static_spacing_largest"
+                android:layout_marginTop="@dimen/static_spacing_medium_extra"
+                android:fontFamily="@font/roboto_regular"
+                android:textColor="@color/colorTopTitle"
+                android:textSize="@dimen/font_medium_more"
+                android:ellipsize="end"
+                android:maxLines="@integer/lines_single"
+                android:text="@{newB.title}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Ali Connors" />
+
+        <TextView
+                android:id="@+id/vNewContent"
+                android:layout_width="@dimen/spacing_none"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/static_spacing_largest"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:layout_marginEnd="@dimen/static_spacing_largest"
+                android:fontFamily="@font/roboto_regular"
+                android:textColor="@color/colorDetailNew"
+                android:textSize="@dimen/font_medium_more"
+                android:ellipsize="end"
+                android:maxLines="@integer/lines_min"
+                android:text="@{newB.text}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/vNewTitle"
+                tools:text="I'll be in your neighborhood doing errands ..." />
+
+        <ImageView
+                android:id="@+id/vNewLikeIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/static_spacing_medium_extra"
+                android:layout_marginBottom="@dimen/static_spacing_medium_extra"
+                android:src="@{(newB.likes.contains(userId))? @drawable/ic_like_on: @drawable/ic_like_off}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:ignore="ContentDescription" />
+
+        <TextView
+                android:id="@+id/vNewTime"
+                android:layout_width="@dimen/spacing_none"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_medium_more"
+                android:layout_marginTop="@dimen/static_spacing_medium_extra"
+                android:layout_marginEnd="@dimen/static_spacing_medium_extra"
+                android:textSize="@dimen/font_medium"
+                android:gravity="end"
+                android:text="@{newB.createdAt}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/vNewTitle"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="15m" />
+
+        <View
+                android:id="@+id/vNewSeparator"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/static_spacing_tiniest"
+                android:background="@color/colorDetailNew"
+                android:layout_marginStart="@dimen/static_spacing_small"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

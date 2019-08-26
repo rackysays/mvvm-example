@@ -3,6 +3,7 @@ package ar.com.wolox.android.mvvmexample.di.module
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import ar.com.wolox.android.mvvmexample.factory.ViewModelFactory
+import ar.com.wolox.android.mvvmexample.ui.home.news.NewsViewModel
 import ar.com.wolox.android.mvvmexample.ui.login.LoginViewModel
 import ar.com.wolox.android.mvvmexample.ui.root.RootViewModel
 import dagger.Binds
@@ -24,5 +25,10 @@ internal abstract class ViewModelModule{
     @IntoMap
     @ViewModelKey(RootViewModel::class)
     protected abstract fun bindRootViewModel(rootViewModel: RootViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(NewsViewModel::class)
+    protected abstract fun bindNewsViewModel(newsViewModel: NewsViewModel): ViewModel
 
 }

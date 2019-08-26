@@ -13,4 +13,25 @@
     <string name="login_google_not_completed_error_message">Your Log In process by Google was not finished</string>
     <string name="network_error_message">Please verify your network connection</string>
     <string name="network_error_unknows">Something is wrong</string>
+    <string name="home_title_wolox">Wolox</string>
+    <string name="home_tab_news">NEWS</string>
+    <string name="home_tab_profile">PROFILE</string>
+    <string name="home_tab_youtube">YOUTUBE</string>
+    <string name="reg_pattern_protocol">^http:?:</string>
+    <string name="reg_pattern_years">\w*(years ago|year ago)</string>
+    <string name="reg_pattern_months">\w*(month ago|months ago)</string>
+    <string name="reg_pattern_weeks">\w*(week ago|weeks ago)</string>
+    <string name="reg_pattern_days">\w*(days ago|day ago)</string>
+    <string name="reg_pattern_hours">\w*(hours ago|hour ago)</string>
+    <string name="reg_pattern_minuts">\w*(minutes ago|minute ago|minute from now)</string>
+    <string name="reg_pattern_now">\w*(moments ago|moments from now)</string>
+    <string name="allow_protocol">https:</string>
+    <string name="year_replacement">Y</string>
+    <string name="month_replacement">M</string>
+    <string name="week_replacement">W</string>
+    <string name="day_replacement">D</string>
+    <string name="hour_replacement">h</string>
+    <string name="minuts_replacement">m</string>
+    <string name="now_replacement">Now</string>
+    <string name="ISO_8601_24h_full_format">yyyy-MM-dd\'T\'HH:mm:ss.SSSXXX</string>
 </resources>

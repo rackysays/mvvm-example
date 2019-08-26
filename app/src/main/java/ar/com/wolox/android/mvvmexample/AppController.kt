@@ -2,6 +2,7 @@ package ar.com.wolox.android.mvvmexample
 
 import ar.com.wolox.android.mvvmexample.BaseConfiguration.Companion.SHARED_PREFERENCES_NAME
 import ar.com.wolox.android.mvvmexample.di.component.DaggerAppComponent
+import com.facebook.drawee.backends.pipeline.Fresco
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
 import timber.log.Timber
@@ -22,6 +23,7 @@ class AppController : DaggerApplication(){
         if (BuildConfig.DEBUG){
             Timber.plant(Timber.DebugTree())
         }
+        Fresco.initialize(this)
     }
 
     companion object {

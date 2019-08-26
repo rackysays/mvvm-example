@@ -79,6 +79,7 @@ class LoginViewModel @Inject constructor(private val userSession: UserSession,
                         item[0].let {
                             userSession.username = it.email
                             userSession.password = it.password
+                            userSession.userId = it.id.toString()
                             value = it
                         }
                     }

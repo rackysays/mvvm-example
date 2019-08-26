@@ -1,4 +1,4 @@
-package ar.com.wolox.android.mvvmexample.ui.login
+package ar.com.wolox.android.mvvmexample.util.binding_adapters
 
 import android.widget.EditText
 import androidx.core.util.PatternsCompat

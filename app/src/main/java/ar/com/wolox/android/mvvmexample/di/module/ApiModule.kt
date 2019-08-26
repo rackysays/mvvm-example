@@ -4,6 +4,7 @@ import androidx.annotation.NonNull
 import ar.com.wolox.android.mvvmexample.BaseConfiguration
 import ar.com.wolox.android.mvvmexample.di.scope.ApplicationScope
 import ar.com.wolox.android.mvvmexample.network.LoginService
+import ar.com.wolox.android.mvvmexample.network.NewService
 import ar.com.wolox.android.mvvmexample.network.utils.LiveDataCallAdapterFactory
 import dagger.Module
 import dagger.Provides
@@ -41,4 +42,9 @@ class ApiModule{
     @ApplicationScope
     fun provideLoginService(@NonNull retrofit: Retrofit): LoginService =
         retrofit.create(LoginService::class.java)
+
+   @Provides
+    @ApplicationScope
+    fun provideNewService(@NonNull retrofit: Retrofit): NewService =
+        retrofit.create(NewService::class.java)
 }
