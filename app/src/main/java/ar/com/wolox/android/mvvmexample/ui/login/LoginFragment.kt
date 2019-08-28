@@ -1,12 +1,6 @@
 package ar.com.wolox.android.mvvmexample.ui.login
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
-import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import ar.com.wolox.android.mvvmexample.R
 import ar.com.wolox.android.mvvmexample.databinding.LoginFragmentBinding
@@ -16,21 +10,12 @@ import ar.com.wolox.android.mvvmexample.util.NetworkSimpleBoundResource.NetworkS
 import ar.com.wolox.android.mvvmexample.util.NetworkSimpleBoundResource.NetworkSimpleBoundErrors.UNKNOWN
 import ar.com.wolox.android.mvvmexample.util.observeLiveData
 import timber.log.Timber
-import javax.inject.Inject
 
-class LoginFragment: BaseFragment() {
+class LoginFragment: BaseFragment<LoginFragmentBinding>() {
 
-    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
-
-    private lateinit var binding : LoginFragmentBinding
     private lateinit var viewModel: LoginViewModel
 
     override fun layout(): Int = R.layout.fragment_login
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = DataBindingUtil.inflate(inflater, layout(),container,false)
-        return binding.root
-    }
 
     override fun observeLiveData(){
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(LoginViewModel::class.java)
@@ -73,7 +58,6 @@ class LoginFragment: BaseFragment() {
             Timber.d("signUp was clicked")
         }
     }
-
 
     override fun changeConnectionStatus(connectionOk: Boolean) {
         super.changeConnectionStatus(connectionOk)
