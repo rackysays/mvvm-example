@@ -8,6 +8,7 @@ import ar.com.wolox.android.mvvmexample.ui.login.LoginActivity
 import ar.com.wolox.android.mvvmexample.ui.login.LoginFragment
 import ar.com.wolox.android.mvvmexample.ui.newdetail.NewDetailActivity
 import ar.com.wolox.android.mvvmexample.ui.newdetail.NewDetailFragment
+import ar.com.wolox.android.mvvmexample.ui.newdetail.fullscreen.FullScreenPictureDialog
 import ar.com.wolox.android.mvvmexample.ui.root.RootActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -41,4 +42,7 @@ abstract class AppModule {
 
     @ContributesAndroidInjector
     internal abstract fun contributeNewDetailFragment(): NewDetailFragment
+
+    @ContributesAndroidInjector
+    internal abstract fun contributeFullScreenPictureDialog(): FullScreenPictureDialog
 }

@@ -55,6 +55,8 @@ class NewDetailViewModel @Inject constructor(userSession: UserSession,
 
     fun onLikeClicked() { switchLike() }
 
+    fun getImageUrl() : String = new.value?.picture!!
+
     private fun getRefreshedData(id: Int): LiveData<Resource<New>> {
         return object : NetworkSimpleBoundResource<New, New>(){
 

@@ -6,6 +6,7 @@ import ar.com.wolox.android.mvvmexample.factory.ViewModelFactory
 import ar.com.wolox.android.mvvmexample.ui.home.news.NewsViewModel
 import ar.com.wolox.android.mvvmexample.ui.login.LoginViewModel
 import ar.com.wolox.android.mvvmexample.ui.newdetail.NewDetailViewModel
+import ar.com.wolox.android.mvvmexample.ui.newdetail.fullscreen.FullScreenPictureViewModel
 import ar.com.wolox.android.mvvmexample.ui.root.RootViewModel
 import dagger.Binds
 import dagger.Module
@@ -36,5 +37,10 @@ internal abstract class ViewModelModule{
     @IntoMap
     @ViewModelKey(NewDetailViewModel::class)
     protected abstract fun bindNewDetailViewModel(newDetailViewModel: NewDetailViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(FullScreenPictureViewModel::class)
+    protected abstract fun bindFullScreenPictureViewModel(fullScreenPictureViewModel: FullScreenPictureViewModel): ViewModel
 
 }

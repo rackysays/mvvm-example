@@ -2,12 +2,8 @@ package ar.com.wolox.android.mvvmexample.ui.home.news
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
-import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -21,23 +17,14 @@ import ar.com.wolox.android.mvvmexample.util.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
-import javax.inject.Inject
 
-class NewsFragment : BaseFragment(), NewsAdapter.NewListener{
-
-    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
+class NewsFragment : BaseFragment<FragmentNewsBinding>(), NewsAdapter.NewListener{
 
     private lateinit var viewModel: NewsViewModel
-    private lateinit var binding: FragmentNewsBinding
     private lateinit var newsAdapter: NewsAdapter
     private lateinit var recyclerPagination: PaginationUtils
 
     override fun layout(): Int = R.layout.fragment_news
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = DataBindingUtil.inflate(inflater, layout(),container,false)
-        return binding.root
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

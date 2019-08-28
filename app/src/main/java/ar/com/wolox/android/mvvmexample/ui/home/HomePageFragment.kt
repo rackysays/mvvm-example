@@ -10,9 +10,7 @@ import ar.com.wolox.android.mvvmexample.R
 import ar.com.wolox.android.mvvmexample.databinding.FragmentHomePageBinding
 import ar.com.wolox.android.mvvmexample.ui.base.BaseFragment
 
-class HomePageFragment: BaseFragment(){
-
-    private lateinit var binding: FragmentHomePageBinding
+class HomePageFragment: BaseFragment<FragmentHomePageBinding>(){
 
     override fun layout(): Int = R.layout.fragment_homepage
 

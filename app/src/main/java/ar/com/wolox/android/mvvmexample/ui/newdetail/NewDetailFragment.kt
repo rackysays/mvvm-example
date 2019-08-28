@@ -1,34 +1,23 @@
 package ar.com.wolox.android.mvvmexample.ui.newdetail
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
-import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import ar.com.wolox.android.mvvmexample.R
 import ar.com.wolox.android.mvvmexample.databinding.FragmentNewDetailBinding
 import ar.com.wolox.android.mvvmexample.model.Status
 import ar.com.wolox.android.mvvmexample.ui.base.BaseFragment
+import ar.com.wolox.android.mvvmexample.ui.newdetail.fullscreen.FullScreenPictureDialog
+import ar.com.wolox.android.mvvmexample.util.Extras.News.NEW_PICTURE
+import ar.com.wolox.android.mvvmexample.util.Extras.News.TAG_FULLSCREEN_PICTURE
 import ar.com.wolox.android.mvvmexample.util.observeLiveData
 import org.greenrobot.eventbus.EventBus
-import javax.inject.Inject
 
-class NewDetailFragment : BaseFragment() {
+class NewDetailFragment : BaseFragment<FragmentNewDetailBinding>() {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-
-    private lateinit var binding: FragmentNewDetailBinding
     private lateinit var viewModel: NewDetailViewModel
-    override fun layout(): Int = R.layout.fragment_new_detail
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = DataBindingUtil.inflate(inflater, layout(),container,false)
-        return binding.root
-    }
+    override fun layout(): Int = R.layout.fragment_new_detail
 
     override fun observeLiveData() {
         super.observeLiveData()
@@ -67,6 +56,13 @@ class NewDetailFragment : BaseFragment() {
         binding.vNewDetailBackButton.setOnClickListener { requireActivity().onBackPressed() }
         binding.vNewDetailSwipe.setOnRefreshListener { viewModel.onRefreshNewDetail() }
         binding.vNewDetailLikeIcon.setOnClickListener { viewModel.onLikeClicked() }
+        binding.vNewDetailPicture.setOnClickListener{
+            val dialog = FullScreenPictureDialog()
+            val bundle = Bundle()
+            bundle.putString(NEW_PICTURE, viewModel.getImageUrl())
+            dialog.arguments = bundle
+            dialog.show(fragmentManager!!.beginTransaction(), TAG_FULLSCREEN_PICTURE)
+        }
     }
 
     override fun changeConnectionStatus(connectionOk: Boolean) {

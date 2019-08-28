@@ -9,9 +9,7 @@ import ar.com.wolox.android.mvvmexample.R
 import ar.com.wolox.android.mvvmexample.databinding.FragmentProfileBinding
 import ar.com.wolox.android.mvvmexample.ui.base.BaseFragment
 
-class ProfileFragment : BaseFragment(){
-
-    private lateinit var binding: FragmentProfileBinding
+class ProfileFragment : BaseFragment<FragmentProfileBinding>(){
 
     override fun layout(): Int = R.layout.fragment_profile
 
