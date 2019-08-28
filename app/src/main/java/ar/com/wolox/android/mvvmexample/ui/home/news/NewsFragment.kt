@@ -1,12 +1,11 @@
 package ar.com.wolox.android.mvvmexample.ui.home.news
 
-import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -14,21 +13,21 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ar.com.wolox.android.mvvmexample.R
 import ar.com.wolox.android.mvvmexample.databinding.FragmentNewsBinding
+import ar.com.wolox.android.mvvmexample.model.New
 import ar.com.wolox.android.mvvmexample.model.Status
 import ar.com.wolox.android.mvvmexample.ui.base.BaseFragment
-import ar.com.wolox.android.mvvmexample.util.NetworkSimpleBoundResource
-import ar.com.wolox.android.mvvmexample.util.PaginationUtils
-import ar.com.wolox.android.mvvmexample.util.observeLiveData
-import kotlinx.android.synthetic.main.fragment_news.*
+import ar.com.wolox.android.mvvmexample.ui.newdetail.NewDetailActivity
+import ar.com.wolox.android.mvvmexample.util.*
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import javax.inject.Inject
 
-class NewsFragment : BaseFragment(){
+class NewsFragment : BaseFragment(), NewsAdapter.NewListener{
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
+    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private lateinit var viewmodel: NewsViewModel
-
+    private lateinit var viewModel: NewsViewModel
     private lateinit var binding: FragmentNewsBinding
     private lateinit var newsAdapter: NewsAdapter
     private lateinit var recyclerPagination: PaginationUtils
@@ -40,11 +39,14 @@ class NewsFragment : BaseFragment(){
         return binding.root
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        EventBus.getDefault().register(this)
+    }
+
     override fun init() {
         super.init()
-        val defaultColor = ContextCompat.getColor(requireActivity() as Context, DEFAULT_PROGRESS_COLOR)
-        vNewsSwipeContainer.setColorSchemeColors(defaultColor, defaultColor, defaultColor)
-        newsAdapter = NewsAdapter()
+        newsAdapter = NewsAdapter(this)
         binding.vNewsRecycler.apply {
             layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
             adapter = newsAdapter
@@ -53,21 +55,26 @@ class NewsFragment : BaseFragment(){
         recyclerPagination = PaginationUtils(
             recyclerView = binding.vNewsRecycler,
             limit = LIMIT,
-            isLoading = {viewmodel.observeNewsListStatusValue()?.status == Status.LOADING},
-            loadMore = { viewmodel.nextPage(it) },
-            onLast = { viewmodel.observeNewsListStatusValue()?.status == (Status.ERROR)  }
+            isLoading = {viewModel.observeNewsListStatusValue()?.status == Status.LOADING},
+            loadMore = { viewModel.onNextPage(it) },
+            onLast = { viewModel.observeNewsListStatusValue()?.status == (Status.ERROR)  }
         )
     }
 
     override fun observeLiveData() {
         super.observeLiveData()
-        viewmodel =  ViewModelProviders.of(this, viewModelFactory).get(NewsViewModel::class.java)
+        viewModel =  ViewModelProviders.of(this, viewModelFactory).get(NewsViewModel::class.java)
 
-        observeLiveData(viewmodel.observeUserStored()){
+        observeLiveData(viewModel.observeUserStored()){
             newsAdapter.setUserId(it)
         }
 
-        observeLiveData(viewmodel.observeNewsList()){
+        observeLiveData(viewModel.observeNewsListChanges()) {
+            newsAdapter.submitList(it)
+            newsAdapter.notifyDataSetChanged()
+        }
+
+        observeLiveData(viewModel.observeNewsList()){
             when (it.status) {
                 Status.SUCCESS -> {
                     binding.vNewsNoContentImage.visibility = View.GONE
@@ -95,12 +102,27 @@ class NewsFragment : BaseFragment(){
         super.setListener()
         binding.vNewsSwipeContainer.setOnRefreshListener {
             recyclerPagination.restorePagination()
-            viewmodel.refreshData()
+            viewModel.onRefreshData()
         }
     }
 
+    override fun onNewSelected(new: New) {
+        val intent = Intent(requireActivity(),NewDetailActivity::class.java)
+        intent.putExtra(Extras.News.NEW,new)
+        startActivity(intent)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        EventBus.getDefault().unregister(this)
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun getLike(eventLikes: New) {
+        viewModel.onReceivedLikeEvent(eventLikes)
+    }
+
     companion object {
-        private const val DEFAULT_PROGRESS_COLOR = R.color.colorAccent
         const val ERROR_NETWORK = R.string.network_error_message
         const val LIMIT = 10
     }

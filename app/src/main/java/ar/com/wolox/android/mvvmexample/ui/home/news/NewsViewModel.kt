@@ -18,9 +18,10 @@ class NewsViewModel @Inject constructor(userSession: UserSession,
                                         private val newService: NewService) : BaseViewModel() {
 
     private val userIdStored = MutableLiveData<String>()
-    private var offset = MutableLiveData<Int>()
+    private val offset = MutableLiveData<Int>()
     private val newsList: LiveData<Resource<List<New>>>
     private val newsListStored  = mutableListOf<New>()
+    private val newsListModified = MutableLiveData<List<New>>()
 
     init {
         userIdStored.postValue(userSession.userId)
@@ -38,12 +39,25 @@ class NewsViewModel @Inject constructor(userSession: UserSession,
 
     fun observeNewsListStatusValue() = observeNewsList().value
 
-    fun refreshData() {
+    fun observeNewsListChanges() : LiveData<List<New>> = newsListModified
+
+    fun onRefreshData() {
         newsListStored.clear()
         offset.postValue(0)
     }
 
-    fun nextPage(offset: Int) { this.offset.postValue(offset) }
+    fun onNextPage(offset: Int) { this.offset.postValue(offset) }
+
+    //This can be more simple, because each element have to be unique, but in this example, data
+    //stored is duplicated for pagination simulation
+    fun onReceivedLikeEvent(new: New) {
+        newsListStored.mapIndexed { index, n ->
+            if (n.id == new.id && n.likes != new.likes) {
+                newsListStored[index] = n.copy(likes = new.likes)
+            }
+        }
+        newsListModified.postValue(newsListStored)
+    }
 
     private fun getNewsLiveData(offset: Int) : LiveData<Resource<List<New>>> {
         return object : NetworkSimpleBoundResource<List<New>, List<New>>(){

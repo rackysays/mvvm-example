@@ -46,6 +46,7 @@ buildscript {
     ext.floatingactionbutton_version = '1.3.0'
     ext.fresco_version = '2.0.0'
     ext.prettytime_version = '4.0.1.Final'
+    ext.eventbus_version = '3.1.1'
 }
 
 dependencies {
@@ -73,6 +74,7 @@ dependencies {
     implementation "com.melnykov:floatingactionbutton:$floatingactionbutton_version"
     implementation "com.facebook.fresco:fresco:$fresco_version"
     implementation "org.ocpsoft.prettytime:prettytime:$prettytime_version"
+    implementation "org.greenrobot:eventbus:$eventbus_version"
 
     //Testing dependencies
     testImplementation "junit:junit:$junit_version"

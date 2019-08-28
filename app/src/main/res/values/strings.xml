@@ -34,4 +34,5 @@
     <string name="minuts_replacement">m</string>
     <string name="now_replacement">Now</string>
     <string name="ISO_8601_24h_full_format">yyyy-MM-dd\'T\'HH:mm:ss.SSSXXX</string>
+    <string name="new_detail_post_title">Post</string>
 </resources>

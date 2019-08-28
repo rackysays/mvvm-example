@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import ar.com.wolox.android.mvvmexample.R
 import ar.com.wolox.android.mvvmexample.databinding.FragmentHomePageBinding
@@ -21,5 +22,15 @@ class HomePageFragment: BaseFragment(){
             binding.adapter = TabSelectionAdapter(this, this.supportFragmentManager)
         }
         return binding.root
+    }
+
+    override fun changeConnectionStatus(connectionOk: Boolean) {
+        super.changeConnectionStatus(connectionOk)
+        if (!connectionOk)
+            Toast.makeText(requireContext(), ERROR_NETWORK, Toast.LENGTH_LONG).show()
+    }
+
+    companion object {
+        const val ERROR_NETWORK = R.string.network_error_message
     }
 }

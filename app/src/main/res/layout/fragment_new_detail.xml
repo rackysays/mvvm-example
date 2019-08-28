@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data class="FragmentNewDetailBinding">
+        <variable name="newDetail" type="ar.com.wolox.android.mvvmexample.model.New" />
+        <variable name="userId" type="int" />
+    </data>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/vNewDetailSwipe"
+            app:setRefreshColor="@{@color/colorAccent}">
+
+        <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                <com.facebook.drawee.view.SimpleDraweeView
+                        android:id="@+id/vNewDetailPicture"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/image_detail_height_size"
+                        app:setFrescoImage="@{newDetail.picture}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:placeholderImage="@color/colorPrimaryDark"
+                        tools:ignore="ContentDescription"
+                        tools:srcCompat="@tools:sample/backgrounds/scenic" />
+
+                <View
+                        android:id="@+id/vNewDetailShadow"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/spacing_big_element"
+                        android:alpha="0.9"
+                        android:background="@android:color/black"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                        android:id="@+id/vNewDetailBackButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/static_spacing_medium_extra"
+                        app:layout_constraintBottom_toBottomOf="@+id/vNewDetailShadow"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/vNewDetailShadow"
+                        app:srcCompat="@drawable/ic_back_white"
+                        tools:ignore="ContentDescription" />
+
+                <TextView
+                        android:id="@+id/vNewDetailTopTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/static_spacing_largest"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="@string/new_detail_post_title"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="@dimen/font_large"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="@+id/vNewDetailShadow"
+                        app:layout_constraintStart_toStartOf="@+id/vNewDetailShadow"
+                        app:layout_constraintTop_toTopOf="@+id/vNewDetailShadow" />
+
+                <TextView
+                        android:id="@+id/vNewDetailTitle"
+                        android:layout_width="@dimen/spacing_none"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/static_spacing_medium_extra"
+                        android:layout_marginTop="@dimen/static_spacing_medium_extra"
+                        android:layout_marginEnd="@dimen/static_spacing_largest"
+                        android:textColor="@color/colorDetailNewTitle"
+                        android:textSize="@dimen/font_huge"
+                        android:text="@{newDetail.title}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/vNewDetailPicture"
+                        tools:text="Ali Connor" />
+
+                <TextView
+                        android:id="@+id/vNewDetailTime"
+                        android:layout_width="@dimen/spacing_none"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/static_spacing_medium"
+                        android:layout_marginTop="@dimen/static_spacing_medium_extra"
+                        android:layout_marginEnd="@dimen/static_spacing_medium_extra"
+                        android:gravity="end"
+                        app:formatDate="@{newDetail.createdAt}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/vNewDetailTitle"
+                        app:layout_constraintTop_toBottomOf="@+id/vNewDetailPicture"
+                        tools:text="15m" />
+
+                <TextView
+                        android:id="@+id/vNewDetailText"
+                        android:layout_width="@dimen/spacing_none"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/static_spacing_medium_extra"
+                        android:layout_marginTop="@dimen/static_spacing_medium"
+                        android:layout_marginEnd="@dimen/static_spacing_medium_extra"
+                        android:text="@{newDetail.text}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/vNewDetailTitle"
+                        tools:text="@tools:sample/lorem/random" />
+
+                <ImageView
+                        android:id="@+id/vNewDetailLikeIcon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/static_spacing_medium"
+                        android:layout_marginTop="@dimen/spacing_big_extra"
+                        android:layout_marginEnd="@dimen/static_spacing_medium"
+                        android:layout_marginBottom="@dimen/spacing_big_extra"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/vNewDetailText"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:src="@{(newDetail.likes.contains(userId))? @drawable/ic_like_on_large: @drawable/ic_like_off_large}"
+                        tools:ignore="ContentDescription" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</layout>

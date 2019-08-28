@@ -70,14 +70,14 @@ class NewsViewModelTest {
         Mockito.`when`(newService.getNewsByLimit(10,10)).
             thenReturn(expectedServiceResponse)
         expectedServiceResponse.postValue(ApiResponse(Response.success(NEW_LIST)))
-        viewModel.nextPage(10)
+        viewModel.onNextPage(10)
         assertEquals(NEW_SUCCESS_PAGINATION, viewModel.observeNewsList().value)
     }
 
     //Service should be called twice, first by init, and second time by refresh
     @Test
     fun offsetIsResetOnRefreshData(){
-        viewModel.refreshData()
+        viewModel.onRefreshData()
         Mockito.verify(newService, times(2)).getNewsByLimit(0,10)
     }
 

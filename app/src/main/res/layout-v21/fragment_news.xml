@@ -14,7 +14,8 @@
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/vNewsSwipeContainer">
+                android:id="@+id/vNewsSwipeContainer"
+                app:setRefreshColor="@{@color/colorAccent}">
 
             <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/vNewsRecycler"
