@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="ems_default">10</integer>
+    <integer name="icon_default_viewport">24</integer>
+    <integer name="lines_min">2</integer>
+    <integer name="lines_single">1</integer>
+</resources>
