@@ -40,10 +40,8 @@ class NewDetailViewModelTest {
         MockitoAnnotations.initMocks(this)
 
         Mockito.`when`(userSession.userId).thenReturn("1")
-
         viewModel = NewDetailViewModel(userSession, newService)
-
-        //We put this here, to have always available the new pass to the fragment
+        //We put this here, to have always available the new received by the fragment
         Mockito.`when`(bundle.getSerializable(NEW)).thenReturn(NEW_MOCKED)
         viewModel.observeNew().observeForever { newObserver }
         viewModel.loadArguments(bundle)
@@ -95,7 +93,6 @@ class NewDetailViewModelTest {
         viewModel.onLikeClicked()
         Assert.assertEquals(NEW_MOCKED_ALREADY_DISLIKE,viewModel.observeLikeStatus().value?.data)
     }
-
 
     companion object {
         private val NEW_MOCKED = New(1,1,"2016-07-18T14:00:29.985Z",
