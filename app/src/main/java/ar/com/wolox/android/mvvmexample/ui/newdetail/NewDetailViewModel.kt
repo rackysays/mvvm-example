@@ -89,18 +89,15 @@ class NewDetailViewModel @Inject constructor(userSession: UserSession,
     private fun switchLike(){
         userIdStored.value?.toInt()?.let { id ->
             new.value?.let { newValue->
-                (newValue.likes as MutableList<Int>).apply {
-                    when (id in newValue.likes) {
-                        true -> {
-                            remove(id)
-                            switchLike.postValue(true)
-                        }
-                        false -> {
-                            add(id)
-                            switchLike.postValue(false)
-                        }
+                val likesListed = mutableListOf<Int>().apply { addAll(newValue.likes) }
+                (likesListed).apply {
+                    when (id in likesListed) {
+                        true -> remove(id)
+                        false -> add(id)
                     }
                 }
+                new.postValue(newValue.copy(likes = likesListed as List<Int>))
+                switchLike.postValue(true)
             }
         }
     }
