@@ -50,8 +50,8 @@ class RootViewModelTest {
 
     @Test
     fun callingLoginServiceSuccess(){
-        Mockito.`when`(userSession.username).thenReturn("usermocked@example.com")
-        Mockito.`when`(userSession.password).thenReturn("12345678")
+        `when`(userSession.username).thenReturn("usermocked@example.com")
+        `when`(userSession.password).thenReturn("12345678")
         `when`(loginService.getUserByLiveCredentials("usermocked@example.com","12345678")).
             thenReturn(EXPECTED_SERVICE_RESPONSE)
         viewModel = RootViewModel(userSession, loginService)
