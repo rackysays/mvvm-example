@@ -4,11 +4,11 @@ import android.os.Bundle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
+import androidx.lifecycle.ViewModel
 import ar.com.wolox.android.mvvmexample.model.New
 import ar.com.wolox.android.mvvmexample.model.Resource
 import ar.com.wolox.android.mvvmexample.network.NewService
 import ar.com.wolox.android.mvvmexample.network.utils.ApiResponse
-import ar.com.wolox.android.mvvmexample.ui.base.BaseViewModel
 import ar.com.wolox.android.mvvmexample.util.AbsentLiveData
 import ar.com.wolox.android.mvvmexample.util.Extras.News.NEW
 import ar.com.wolox.android.mvvmexample.util.NetworkSimpleBoundResource
@@ -16,7 +16,7 @@ import ar.com.wolox.android.mvvmexample.util.UserSession
 import javax.inject.Inject
 
 class NewDetailViewModel @Inject constructor(userSession: UserSession,
-                                             private val newService: NewService): BaseViewModel() {
+                                             private val newService: NewService): ViewModel() {
 
     private val new : MutableLiveData<New> = MutableLiveData()
     private val userIdStored = MutableLiveData<String>()

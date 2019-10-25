@@ -5,16 +5,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import ar.com.wolox.android.mvvmexample.network.LoginService
 import ar.com.wolox.android.mvvmexample.network.utils.ApiResponse
-import ar.com.wolox.android.mvvmexample.ui.base.BaseViewModel
 import ar.com.wolox.android.mvvmexample.util.AbsentLiveData
 import ar.com.wolox.android.mvvmexample.util.NetworkSimpleBoundResource
 import ar.com.wolox.android.mvvmexample.util.UserSession
 import androidx.lifecycle.Transformations.switchMap
+import androidx.lifecycle.ViewModel
 import ar.com.wolox.android.mvvmexample.model.*
 import javax.inject.Inject
 
 class LoginViewModel @Inject constructor(private val userSession: UserSession,
-                                         private val loginService: LoginService): BaseViewModel(){
+                                         private val loginService: LoginService): ViewModel(){
 
     // User stored from SharedPreferences
     private val userStored : MutableLiveData<String> = MutableLiveData()

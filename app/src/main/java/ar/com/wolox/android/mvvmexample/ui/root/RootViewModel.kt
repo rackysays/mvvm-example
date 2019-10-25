@@ -3,19 +3,19 @@ package ar.com.wolox.android.mvvmexample.ui.root
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
+import androidx.lifecycle.ViewModel
 import ar.com.wolox.android.mvvmexample.model.Resource
 import ar.com.wolox.android.mvvmexample.model.User
 import ar.com.wolox.android.mvvmexample.model.UserCredentials
 import ar.com.wolox.android.mvvmexample.network.LoginService
 import ar.com.wolox.android.mvvmexample.network.utils.ApiResponse
-import ar.com.wolox.android.mvvmexample.ui.base.BaseViewModel
 import ar.com.wolox.android.mvvmexample.util.AbsentLiveData
 import ar.com.wolox.android.mvvmexample.util.NetworkSimpleBoundResource
 import ar.com.wolox.android.mvvmexample.util.UserSession
 import javax.inject.Inject
 
 class RootViewModel @Inject constructor(private val userSession: UserSession,
-                                        private val loginService: LoginService) : BaseViewModel() {
+                                        private val loginService: LoginService) : ViewModel() {
 
     // Live Data for validation of Network Login
     private val loginLiveData : LiveData<Resource<User>>
